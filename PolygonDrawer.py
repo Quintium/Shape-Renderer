@@ -1,5 +1,5 @@
 import pygame, sys
-from Polygon import Point, Polygon
+from Polygon import Line, Polygon, Rectangle, Circle
 
 # create screen
 pygame.init()
@@ -18,12 +18,15 @@ while True:
     screen.fill((255, 255, 255))
 
     if mode == "select":
-        # draw lines between currently selected points and point at current mouse position
+        # draw lines between currently selected points and rectangle at current mouse position
         for i in range(len(points) - 1):
-            pygame.draw.line(screen, outlineColor, points[i], points[i + 1])
+            line = Line(points[i], points[i + 1])
+            line.draw(screen, outlineColor)
         if points:
-            pygame.draw.line(screen, outlineColor, points[-1], pygame.mouse.get_pos())
-        pygame.draw.circle(screen, outlineColor, pygame.mouse.get_pos(), 3)
+            line = Line(points[-1], pygame.mouse.get_pos())
+            line.draw(screen, outlineColor)
+        rectangle = Rectangle(pygame.mouse.get_pos()[0] - 5, pygame.mouse.get_pos()[1] - 5, 10, 10)
+        rectangle.outline(screen, outlineColor)
         
         for e in events:
             if e.type == pygame.MOUSEBUTTONDOWN:
