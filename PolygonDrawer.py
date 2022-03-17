@@ -1,5 +1,5 @@
 import pygame, sys
-from Polygon import Line, Polygon, Rectangle, Circle
+from Graphics import Line, Polygon, Rectangle, Circle
 
 # create screen
 pygame.init()
@@ -36,7 +36,7 @@ while True:
                 # when space pressed, create polygon out of selected points
                 polygon = Polygon(points)
                 mode = "draw"
-    else:
+    elif mode == "draw":
         # fill polygon
         polygon.fill(screen, fillColor)
         polygon.outline(screen, outlineColor)

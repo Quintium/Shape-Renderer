@@ -1,6 +1,4 @@
 import math
-from tkinter.messagebox import YES
-from typing import Type
 
 # struct class for points
 class Point:
