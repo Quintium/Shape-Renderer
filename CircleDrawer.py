@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, datetime
 from Graphics import Line, Polygon, Rectangle, Circle
 
 # create screen
@@ -18,6 +18,7 @@ while True:
     events = pygame.event.get()
     screen.fill((255, 255, 255))
 
+    # draw all circles
     for circle in circles:
         circle.fill(screen, fillColor)
         circle.outline(screen, outlineColor)
@@ -28,10 +29,11 @@ while True:
         rectangle.outline(screen, outlineColor)
         
         for e in events:
+            # when clicked, add point as center
             if e.type == pygame.MOUSEBUTTONDOWN:
-                # when clicked, add point as center
                 center = pygame.mouse.get_pos()
                 mode = "drag"
+                
     elif mode == "drag":
         # draw circle at mouse position
         radius = max(abs(pygame.mouse.get_pos()[0] - center[0]), abs(pygame.mouse.get_pos()[1] - center[1]))
@@ -50,5 +52,10 @@ while True:
         if e.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
+        # screenshot
+        if e.type == pygame.KEYDOWN:
+            if e.key == pygame.K_f:
+                pygame.image.save(screen, "Screenshots/Screenshot_" + datetime.datetime.now().strftime(r"%d_%m_%Y_%H_%M_%S") + ".jpg")
 
     pygame.display.flip()
