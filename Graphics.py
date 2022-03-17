@@ -32,13 +32,9 @@ class Line:
     # get intersection of line with vertical line; returns False if no intersections; returns True if line lies on vertical; otherwise returns intersection point
     def intersectX(self, x):
         # handle trivial cases to avoid division by 0; solved using vector lines
-        if (self.p1.x == self.p2.x):
-            if (self.p1.y == self.p2.y):
-                if (self.p1.x == x):
-                    return Point(x, self.p1.y)
-            else:
-                if (self.p1.x == x):
-                    return True
+        if self.p1.x == self.p2.x:
+            if self.p1.x == x:
+                return True
         else:
             # vector line: a = p1 + (p1 - p2) * r; vector vertical: a = (x | 0) + (0 | 1) * y
             # solve for r, if 0 <= r <= 1: point lies in line segment
@@ -51,13 +47,9 @@ class Line:
     # get intersection of line with horizontal line; returns False if no intersections; returns True if line lies on horizontal; otherwise returns intersection point
     def intersectY(self, y):
         # handle trivial cases to avoid division by 0; solved using vector lines
-        if (self.y == 0):
-            if (self.x == 0):
-                if (self.p1.y == y):
-                    return Point(self.p1.x, y)
-            else:
-                if (self.p1.y == y):
-                    return True
+        if self.y == 0:
+            if self.p1.y == y:
+                return True
         else:
             # vector line: a = p1 + (p1 - p2) * r; vector horizontal: a = (0 | y) + (1 | 0) * x
             # solve for r, if 0 <= r <= 1: point lies in line segment
@@ -78,6 +70,8 @@ class Line:
             highest = math.floor(max(self.p1.x, self.p2.x))
             for x in range(lowest, highest + 1):
                 point = self.intersectX(x)
+                if point is True:
+                    point = self.p1
                 screen.set_at((x, round(point.y)), color)
         # if line is stretched out in y direction, scan y-horizontals and draw points at intersections
         else:
@@ -85,6 +79,8 @@ class Line:
             highest = math.floor(max(self.p1.y, self.p2.y))
             for y in range(lowest, highest + 1):
                 point = self.intersectY(y)
+                if point is True:
+                    point = self.p1
                 screen.set_at((round(point.x), y), color)
 
 # class for polygons
