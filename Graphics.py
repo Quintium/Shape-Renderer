@@ -99,34 +99,34 @@ class Polygon:
         # scan all horizontals
         for y in range(lowest, highest + 1):
             # get intersections of lines with horizontal
-            lineRelations = [line.intersectY(y) for line in self.lines]
+            intersections = [line.intersectY(y) for line in self.lines]
             xPoints = []
 
             for i in range(n):
                 checkedPoint = None
 
-                if lineRelations[i] is True:
+                if intersections[i] is True:
                     # if line lies on horizontal, add first point, check if second point is connected to open or close corner
                     xPoints.append(self.lines[i].p1.x)
-                    if self.lines[(i + 1) % n].y == 0:
+                    if intersections[(i + 1) % n] is True:
                         xPoints.append(self.lines[i].p2.x)
                     else:
                         # check if corner is closed when delayed by a straight line
                         firstLine = i - 1
-                        while self.lines[firstLine].y == 0:
+                        while intersections[firstLine] is True:
                             firstLine = (firstLine - 1) % n
                         else:
                             if not self.lines[firstLine].isClosedCorner(self.lines[(i + 1) % n]):
                                 xPoints.append(self.lines[i].p2.x)
 
-                elif isinstance(lineRelations[i], Point):
+                elif isinstance(intersections[i], Point):
                     # if intersection point is the end point, check if it is connected to open or close corner, else add it
-                    if lineRelations[i].equals(self.lines[i].p2):
+                    if intersections[i].equals(self.lines[i].p2):
                         # check if point is open or closed in x-direction, if open, don't add it, so the line gets drawn to another intersection with horizontal instead of to the point itself
                         if self.lines[i].isClosedCorner(self.lines[(i + 1) % n]):
-                            xPoints.append(lineRelations[i].x)
+                            xPoints.append(intersections[i].x)
                     else:
-                        xPoints.append(lineRelations[i].x)  
+                        xPoints.append(intersections[i].x)  
 
             # sort x-values
             xPoints = sorted(xPoints)
